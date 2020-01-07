@@ -157,10 +157,6 @@ def findSAM(VAM, n):
     return solutions
 
 
-
-
 main(int(input('How many cubes in a tower?')))
 
-
-
-
+#this is ridiculous
