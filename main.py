@@ -112,7 +112,7 @@ def generateDynamicVam(depth):
     stub = []
     def doLevel(level):
         if (level == 0):
-            return [[x] for x in range(depth)]
+            return [[x] for x in range(3)]
         elif level > 0:
             currentList = doLevel(level - 1)
             #print(currentList)
@@ -139,6 +139,8 @@ def solveMatrix(matrix, n, product):
     for i in generateDynamicVam(n-1):
         newProduct = 1
         for j in i:
+            # print(matrix)
+            # print(j)
             newProduct = newProduct * matrix[j[0]][j[1]]
         if newProduct==product:
             solutions.append(i)
@@ -158,5 +160,5 @@ def findSAM(VAM, n):
 
 
 main(int(input('How many cubes in a tower?')))
-
+#print(generateDynamicVam(4))
 #this is ridiculous
