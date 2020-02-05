@@ -1,35 +1,23 @@
 import itertools
 
 def main(n):
-    '''
-     2 : Red
-     3 : Blue
-     5 : Green
-     7 : White
-     '''
     cubes = []
-    filteredCubes = []
     expandedCubes = []
     primeNumbers = generatePrimes(n)
-    print(primeNumbers)
     product = 1
     for i in primeNumbers:
         product = product * i**2
-    print(product)
 
     generateCubes(primeNumbers, cubes)
-    removeNot4(cubes, primeNumbers, filteredCubes, expandedCubes, n)
+    removeNot4(cubes, primeNumbers, expandedCubes, n)
     print('expanded cubes =', len(expandedCubes))
     print('not rotated cubes =', len(removeIso(expandedCubes)))
     print(removeIso(expandedCubes))
     count = 0
     number = 0
     for i in itertools.combinations(removeIso(expandedCubes), n):
-        if count % 1000 == 0:
-            print(count)
         if len(findSAM(solveMatrix(i, n, product), n)) > 0:
             number += 1
-        count += 1
     print('----')
     print('total =', count)
     print('solvable =', number)
@@ -61,15 +49,13 @@ def generateCubes(primeNumbers, cubes):
         cubes.append([c1 * c5, c2 * c4, c3 * c6])
 
 
-def removeNot4(cubes, primeNumbers, filteredCubes, expandedCubes, n):
+def removeNot4(cubes, primeNumbers, expandedCubes, n):
     for i in cubes:
         setCheck = set()
-        expanded = []
         for j in range(3):
             for k in range(2):
                 setCheck.add(findPrimeFactors(i[j], primeNumbers)[k])
         if len(setCheck) == n:
-            filteredCubes.append(i)
             expandedCubes.append(i)
 
 
@@ -88,7 +74,6 @@ def checkRotate(s1, s2):
             return True
     return False
 
-removed = []
 def removeIso(the_list):
     final_list = []
     for m in the_list:
@@ -109,13 +94,11 @@ def generateVAM():
     return VAMs
 '''
 def generateDynamicVam(depth):
-    stub = []
     def doLevel(level):
         if (level == 0):
             return [[x] for x in range(3)]
         elif level > 0:
             currentList = doLevel(level - 1)
-            #print(currentList)
             newList = []
             for t in currentList:
                 for i in range(3):
@@ -139,8 +122,6 @@ def solveMatrix(matrix, n, product):
     for i in generateDynamicVam(n-1):
         newProduct = 1
         for j in i:
-            # print(matrix)
-            # print(j)
             newProduct = newProduct * matrix[j[0]][j[1]]
         if newProduct==product:
             solutions.append(i)
@@ -159,6 +140,6 @@ def findSAM(VAM, n):
     return solutions
 
 
-main(int(input('How many cubes in a tower?')))
-#print(generateDynamicVam(4))
-#this is ridiculous
+#main(int(input('How many cubes in a tower?')))
+#print(findSAM(solveMatrix([[21,35,6],[35,9,10],[10,14,21],[6,4,35]], 4, 44100),4))
+print(generateDynamicVam(2))
